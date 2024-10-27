@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "fastapi-cicd"
+version = "0.1.0"
+description = "Test project to integrate with GitLab CICD"
+authors = ["main <secret@gmail.com>"]
+license = "GNU"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.7"
+fastapi = {extras = ["standard"], version = "^0.115.3"}
+pydantic = "^2.9.2"
+pydantic-settings = "^2.6.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+black = "^24.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+package-mode = false
