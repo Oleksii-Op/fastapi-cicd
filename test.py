@@ -8,6 +8,7 @@ def test_foo():
     res = 1
     assert res == 1
 
+
 def test_foo2():
     res = {"message": "Hello World"}
     assert res == {"message": "Hello World"}
