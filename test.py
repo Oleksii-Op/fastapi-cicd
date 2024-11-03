@@ -30,3 +30,15 @@ def test_get_user():
     assert response.status_code == 200
     assert response.headers["Content-Type"] == "application/json"
     assert response.json() == correct_response
+
+
+def test_wrong_user():
+    correct_response = {
+        "id": "16fc42b4ac60aa4d31ef7a8bdee7903ac",
+        "username": "Wrong",
+        "email": "random@gmail.com",
+    }
+    response = client.get("/user")
+    assert response.status_code == 200
+    assert response.headers["Content-Type"] == "application/json"
+    assert response.json() != correct_response
