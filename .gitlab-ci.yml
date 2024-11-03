@@ -1,0 +1,20 @@
+stages:
+    - test1
+    - test2
+
+test1:
+    stage: test1
+    script:
+        - echo "$(date) test1 --------------------"
+    only:
+        refs:
+            - develop
+
+pytest:
+    stage: test2
+    image: python:3.12-slim
+    before_script:
+        - pip install poetry==1.8.3
+        - poetry install
+    script:
+        - poetry run pytest test.py
