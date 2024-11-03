@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-
+# some comment
 @app.get("/")
 async def root_page():
     return {"message": "Hello World"}
