@@ -1,6 +1,7 @@
 stages:
     - test1
     - test2
+    - build
 
 test1:
     stage: test1
@@ -8,7 +9,7 @@ test1:
         - echo "$(date) test1 --------------------"
     only:
         refs:
-            - develop
+            - develop1
 
 pytest:
     stage: test2
@@ -18,3 +19,14 @@ pytest:
         - poetry install
     script:
         - poetry run pytest test.py
+    only:
+        refs:
+            - develop1
+
+build:
+    stage: build
+    script: echo "$(date) Building..."
+    only:
+        refs:
+            - develop1
+    when: manual
