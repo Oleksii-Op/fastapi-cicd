@@ -2,6 +2,7 @@ stages:
     - test1
     - test2
     - build
+    - prod
 
 test1:
     stage: test1
@@ -29,4 +30,14 @@ build:
     only:
         refs:
             - develop1
+            - /^release.*$/
     when: manual
+
+deploy_prod:
+    stage: prod
+    script: echo "$(date) Deploying to prod"
+    when: manual
+    only:
+        refs:
+            - tags
+            - develop
