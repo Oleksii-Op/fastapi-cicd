@@ -12,7 +12,7 @@ test1:
         refs:
             - develop1
     tags:
-        - raspberry-pi-5
+        - pi-5
 
 pytest:
     stage: test2
@@ -26,7 +26,7 @@ pytest:
         refs:
             - develop1
     tags:
-        - raspberry-pi-5
+        - pi-5
 
 build:
     stage: build
@@ -34,7 +34,6 @@ build:
     only:
         refs:
             - develop1
-            - /^release.*$/
     when: manual
 
 deploy_prod:
