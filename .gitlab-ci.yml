@@ -14,19 +14,21 @@ install_dependencies:
         - poetry install
         - source `poetry env info --path`/bin/activate
         - which poetry
-#    artifacts:
-#        paths:
-#            - /*
-#    cache:
-#        key:
-#            files:
-#                - poetry.lock
-#        paths:
-#            - /*
+    artifacts:
+        paths:
+            - /*
+            - /usr/local/bin/poetry
+    cache:
+        key:
+            files:
+                - poetry.lock
+        paths:
+            - /*
 
 run_pytest:
     stage: test
     script:
+        - ls -la
         - pip install pytest
         - pytest tests/*
 
