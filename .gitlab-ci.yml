@@ -12,6 +12,7 @@ install_dependencies:
     script:
         - pip install poetry==$POETRY_VERSION
         - poetry install
+        - echo "$PWD"
     artifacts:
         paths:
             - .venv
@@ -25,9 +26,9 @@ install_dependencies:
 run_pytest:
     stage: test
     script:
-        - pytest tests/*
+        - poetry run pytest tests/*
 
 run_mypy:
     stage: test
     script:
-        - mypy .
+        - poetry run mypy .
