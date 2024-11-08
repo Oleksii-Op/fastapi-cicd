@@ -16,16 +16,15 @@ install_dependencies:
         - source `poetry env info --path`/bin/activate
         - echo "$PWD"
         - ls -la
-        - poetry run pytest tests/*
     artifacts:
         paths:
-            - .venv
+            - /*
     cache:
         key:
             files:
                 - poetry.lock
         paths:
-            - .venv
+            - /*
 
 run_pytest:
     stage: test
