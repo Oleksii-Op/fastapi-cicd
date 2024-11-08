@@ -2,7 +2,6 @@ image: python:3.12.7-slim
 stages:
     - build
     - test
-    - stage
 
 variables:
     POETRY_VERSION: 1.8.3
@@ -14,27 +13,25 @@ install_dependencies:
         - poetry config virtualenvs.in-project true
         - poetry install
         - source `poetry env info --path`/bin/activate
-        - echo "$PWD"
-        - ls -la
-        - $(which poetry)
-    artifacts:
-        paths:
-            - /*
-            - $(which poetry)
-    cache:
-        key:
-            files:
-                - poetry.lock
-        paths:
-            - /*
+        - which poetry
+#    artifacts:
+#        paths:
+#            - /*
+#    cache:
+#        key:
+#            files:
+#                - poetry.lock
+#        paths:
+#            - /*
 
 run_pytest:
     stage: test
     script:
-        - ls -la
-        - poetry run pytest tests/*
+        - pip install pytest
+        - pytest tests/*
 
 run_mypy:
     stage: test
     script:
-        - poetry run mypy .
+        - pip install mypy
+        - mypy .
