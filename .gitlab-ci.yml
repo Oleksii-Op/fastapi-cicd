@@ -14,7 +14,7 @@ install_dependencies:
         - apk add curl
         - apk add git
         - curl -sSL https://install.python-poetry.org | POETRY_HOME=$CI_PROJECT_DIR/poetry python3 -
-        - export PATH="/builds/GROUP_NAME/REPOSITORY_NAME/poetry/bin:$PATH"
+        - export PATH="/builds/justme5254252/fastapi-cicde/poetry/bin:$PATH"
         - poetry config virtualenvs.in-project true
         - poetry install
     script:
@@ -40,7 +40,7 @@ run_pytest:
         - apk add bash
         - apk add git
     script:
-        - export PATH="/builds/GROUP_NAME/REPOSITORY_NAME/bin:$PATH"
+        - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry run pytest tests/*
 
@@ -54,6 +54,6 @@ run_mypy:
         - apk add bash
         - apk add git
     script:
-        - export PATH="/builds/GROUP_NAME/REPOSITORY_NAME/bin:$PATH"
+        - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry run mypy .
