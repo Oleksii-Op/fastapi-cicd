@@ -5,6 +5,7 @@ description = "Test project to integrate with GitLab CICD"
 authors = ["main <secret@gmail.com>"]
 license = "GNU"
 readme = "README.md"
+virtualenvs.in-projetc = true
 
 [tool.poetry.dependencies]
 python = "3.12.7"
