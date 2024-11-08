@@ -55,7 +55,7 @@ run_mypy:
         - apk add git
     script:
         - ls -la
-        - ls -la poetry/
+        - ls -la poetry/bin/
         - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry run mypy .
