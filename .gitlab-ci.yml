@@ -34,7 +34,7 @@ run_pytest:
     stage: test
     image: python:3.12.7-alpine
     dependencies:
-        - pre-commit
+        - install_dependencies
     before_script:
         - apk add curl
         - apk add bash
@@ -48,7 +48,7 @@ run_mypy:
     stage: test
     image: python:3.12.7-alpine
     dependencies:
-        - pre-commit
+        - install_dependencies
     before_script:
         - apk add curl
         - apk add bash
