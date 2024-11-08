@@ -29,6 +29,7 @@ install_dependencies:
 run_pytest:
     stage: test
     script:
+        - ls -la
         - poetry run pytest tests/*
 
 run_mypy:
