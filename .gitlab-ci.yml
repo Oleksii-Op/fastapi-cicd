@@ -16,9 +16,11 @@ install_dependencies:
         - source `poetry env info --path`/bin/activate
         - echo "$PWD"
         - ls -la
+        - $(which poetry)
     artifacts:
         paths:
             - /*
+            - $(which poetry)
     cache:
         key:
             files:
