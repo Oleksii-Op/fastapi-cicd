@@ -40,7 +40,7 @@ run_pytest:
         - apk add bash
         - apk add git
     script:
-        - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
+        - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry run pytest tests/*
 
@@ -54,10 +54,6 @@ run_mypy:
         - apk add bash
         - apk add git
     script:
-        - ls -la
-        - ls -la poetry/bin/
-        - ls -la poetry/venv/
-        - ls -la poetry/
-        - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
+        - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
-        - $CI_PROJECT_DIR/poetry/bin/poetry run mypy .
+        - poetry run mypy .
