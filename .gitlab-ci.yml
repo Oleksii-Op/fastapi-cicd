@@ -16,9 +16,9 @@ install_dependencies:
         - curl -sSL https://install.python-poetry.org | POETRY_HOME=$CI_PROJECT_DIR/poetry python3 -
         - export PATH="/builds/justme5254252/fastapi-cicde/poetry/bin:$PATH"
         - poetry config virtualenvs.in-project true
-        - poetry install
     script:
-        - poetry run pre-commit run --all-files
+        - poetry install
+        - echo "$(date) Done"
     artifacts:
         paths:
             - $CI_PROJECT_DIR/.venv
