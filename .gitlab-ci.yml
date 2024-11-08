@@ -13,6 +13,7 @@ install_dependencies:
         - pip install poetry==$POETRY_VERSION
         - poetry install
         - echo "$PWD"
+        - ls -la
     artifacts:
         paths:
             - .venv
