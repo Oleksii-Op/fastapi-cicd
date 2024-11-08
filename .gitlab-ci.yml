@@ -56,6 +56,8 @@ run_mypy:
     script:
         - ls -la
         - ls -la poetry/bin/
+        - ls -la poetry/venv/
+        - ls -la poetry/
         - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
-        - poetry run mypy .
+        - $CI_PROJECT_DIR/poetry/bin/poetry run mypy .
