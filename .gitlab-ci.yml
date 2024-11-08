@@ -18,7 +18,7 @@ install_dependencies:
         - poetry config virtualenvs.in-project true
     script:
         - poetry install
-        - echo "$(date) Done"
+        - echo "$(date) Done----------------------------------------"
     artifacts:
         paths:
             - $CI_PROJECT_DIR/.venv
@@ -54,6 +54,8 @@ run_mypy:
         - apk add bash
         - apk add git
     script:
+        - ls -la
+        - ls -la poetry/
         - export PATH="/builds/justme5254252/fastapi-cicde/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry run mypy .
