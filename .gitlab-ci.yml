@@ -6,25 +6,16 @@ stages:
 variables:
     PYTHON_VERSION: 3.12.7
 
-install_dependencies:
+# Общий блок для установки зависимостей
+before_install:
     stage: build
     image: python:$PYTHON_VERSION-alpine
-    variables:
-        POETRY_VIRTUALENVS_PATH: $CI_PROJECT_DIR/.venv
-    before_script:
-        - apk add curl
-        - apk add git
-        - curl -sSL https://install.python-poetry.org | POETRY_HOME=$CI_PROJECT_DIR/poetry python3 -
-        - export PATH="/builds/justme5254252/fastapi-cicde/poetry/bin:$PATH"
-        - poetry config virtualenvs.in-project true
     script:
+        - apk add --no-cache curl git bash gcc python3-dev musl-dev linux-headers
+        - curl -sSL https://install.python-poetry.org | POETRY_HOME=$CI_PROJECT_DIR/poetry python3 -
+        - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
+        - poetry config virtualenvs.in-project true
         - poetry install
-        - echo "$(date) Done----------------------------------------"
-    artifacts:
-        paths:
-            - $CI_PROJECT_DIR/.venv/
-            - $CI_PROJECT_DIR/poetry/
-        expire_in: 1 week
     cache:
         key:
             files:
@@ -33,15 +24,17 @@ install_dependencies:
             - $CI_PROJECT_DIR/poetry.lock
             - $CI_PROJECT_DIR/pyproject.toml
             - $CI_PROJECT_DIR/.venv/
+    artifacts:
+        paths:
+            - $CI_PROJECT_DIR/.venv/
+            - $CI_PROJECT_DIR/poetry/
+        expire_in: 1 week
 
 run_pytest:
     stage: test
     image: python:$PYTHON_VERSION-alpine
     dependencies:
-        - install_dependencies
-    before_script:
-        - apk add bash
-        - apk add git
+        - before_install
     script:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
@@ -51,10 +44,7 @@ run_mypy:
     stage: test
     image: python:$PYTHON_VERSION-alpine
     dependencies:
-        - install_dependencies
-    before_script:
-        - apk add bash
-        - apk add git
+        - before_install
     script:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
@@ -64,30 +54,21 @@ bandit_check:
     stage: security_check
     image: python:$PYTHON_VERSION-alpine
     dependencies:
-        - install_dependencies
-    before_script:
-        - apk add bash
-        - apk add git
+        - before_install
     script:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry add bandit
-        - ls -la
         - find . -type f -name "*.py" ! -path "./.venv/*" ! -path "./poetry/*" | xargs bandit -r --format txt --output bandit_report.log || true
     artifacts:
         paths:
             - $CI_PROJECT_DIR/bandit_report.log
 
-
 safety_check:
     stage: security_check
     image: python:$PYTHON_VERSION-alpine
     dependencies:
-        - install_dependencies
-    before_script:
-        - apk add bash
-        - apk add git
-        - apk add gcc python3-dev musl-dev linux-headers
+        - before_install
     script:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
