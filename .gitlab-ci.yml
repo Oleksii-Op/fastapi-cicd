@@ -9,8 +9,8 @@ variables:
 install_dependencies:
     stage: build
     image: python:3.12.7-alpine
-    tags:
-        - docker
+    # tags:
+    #     - docker
     variables:
         POETRY_VIRTUALENVS_PATH: $CI_PROJECT_DIR/.venv
     before_script:
