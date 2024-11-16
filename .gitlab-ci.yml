@@ -1,6 +1,7 @@
 stages:
     - build
     - test
+    - security_check
 
 variables:
     POETRY_VERSION: 1.8.3
@@ -8,6 +9,8 @@ variables:
 install_dependencies:
     stage: build
     image: python:3.12.7-alpine
+    tags:
+        - docker
     variables:
         POETRY_VIRTUALENVS_PATH: $CI_PROJECT_DIR/.venv
     before_script:
@@ -57,3 +60,34 @@ run_mypy:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry run mypy .
+
+bandit_check:
+    stage: security_check
+    image: python:3.12.7-alpine
+    dependencies:
+        - install_dependencies
+    before_script:
+        - apk add curl
+        - apk add bash
+        - apk add git
+    script:
+        - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
+        - source $CI_PROJECT_DIR/.venv/bin/activate
+        - poetry add bandit
+        - bandit -rv .
+
+safety_check:
+    stage: security_check
+    image: python:3.12.7-alpine
+    dependencies:
+        - install_dependencies
+    before_script:
+        - apk add curl
+        - apk add bash
+        - apk add git
+    script:
+        - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
+        - source $CI_PROJECT_DIR/.venv/bin/activate
+        - poetry add safety
+        - poetry export -f requirements.txt --output requirements.txt
+        - safety check -r requirements.txt
