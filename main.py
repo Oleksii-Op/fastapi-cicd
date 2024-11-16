@@ -4,13 +4,13 @@ from fastapi import FastAPI
 import uvicorn
 from core.config import settings
 from common_logger.logger_config import configure_logger
+from before_start.check_version import check_python_version
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
 
-# some comment
 @app.get("/")
 async def root_page():
     return {"message": "Hello World"}
@@ -27,6 +27,7 @@ async def get_user():
 
 if __name__ == "__main__":
     configure_logger(level=logging.INFO)
+    check_python_version()
     logger.info("Starting FastAPI app")
     uvicorn.run(
         "main:app",
