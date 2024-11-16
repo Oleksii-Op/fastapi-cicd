@@ -11,6 +11,7 @@ before_install:
     stage: build
     image: python:$PYTHON_VERSION-alpine
     script:
+        - apk add --no-cache curl git bash gcc python3-dev musl-dev linux-headers
         - curl -sSL https://install.python-poetry.org | POETRY_HOME=$CI_PROJECT_DIR/poetry python3 -
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - poetry config virtualenvs.in-project true
@@ -69,7 +70,7 @@ safety_check:
     dependencies:
         - before_install
     script:
-        - apk add --no-cache curl git bash gcc python3-dev musl-dev linux-headers
+        - apk add --no-cache gcc python3-dev musl-dev linux-headers
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry add safety
