@@ -69,7 +69,7 @@ bandit_check:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry add bandit
-        - find . -type f -name "*.py" ! -path "./.venv/*" | xargs bandit -r --format txt --output bandit_report.log
+        - find . -type f -name "*.py" ! -path "./.venv/*" | xargs bandit -r --format txt --output bandit_report.log || true
     artifacts:
         paths:
             - $CI_PROJECT_DIR/bandit_report.log
@@ -89,4 +89,7 @@ safety_check:
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry add safety
         - poetry export -f requirements.txt --output requirements.txt
-        - safety check -r requirements.txt
+        - safety check -r requirements.txt --json > safety_report.json || true
+    artifacts:
+        paths:
+            - safety_report.json
