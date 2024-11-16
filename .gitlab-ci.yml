@@ -9,8 +9,6 @@ variables:
 install_dependencies:
     stage: build
     image: python:3.12.7-alpine
-    tags:
-        - docker
     variables:
         POETRY_VIRTUALENVS_PATH: $CI_PROJECT_DIR/.venv
     before_script:
@@ -39,7 +37,6 @@ run_pytest:
     dependencies:
         - install_dependencies
     before_script:
-        - apk add curl
         - apk add bash
         - apk add git
     script:
@@ -53,7 +50,6 @@ run_mypy:
     dependencies:
         - install_dependencies
     before_script:
-        - apk add curl
         - apk add bash
         - apk add git
     script:
@@ -67,14 +63,16 @@ bandit_check:
     dependencies:
         - install_dependencies
     before_script:
-        - apk add curl
         - apk add bash
         - apk add git
     script:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry add bandit
-        - bandit -rv .
+        - find . -type f -name "*.py" ! -path "./.venv/*" | xargs bandit -r --format txt --output bandit_report.log
+    artifacts:
+        paths:
+            - $CI_PROJECT_DIR/bandit_report.log
 
 
 safety_check:
@@ -83,9 +81,9 @@ safety_check:
     dependencies:
         - install_dependencies
     before_script:
-        - apk add curl
         - apk add bash
         - apk add git
+        - apk add gcc python3-dev musl-dev linux-headers
     script:
         - export PATH="$CI_PROJECT_DIR/poetry/bin:$PATH"
         - source $CI_PROJECT_DIR/.venv/bin/activate
