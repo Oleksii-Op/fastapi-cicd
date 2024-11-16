@@ -70,8 +70,7 @@ bandit_check:
         - source $CI_PROJECT_DIR/.venv/bin/activate
         - poetry add bandit
         - ls -la
-        - find . -type f -name "*.py" ! -path "./.venv/*"
-        - find . -type f -name "*.py" ! -path "./.venv/*" | xargs bandit -r --exclude venv --format txt --output bandit_report.log || true
+        - find . -type f -name "*.py" ! -path "./.venv/*" ! -path "./poetry/*" | xargs bandit -r --format txt --output bandit_report.log || true
     artifacts:
         paths:
             - $CI_PROJECT_DIR/bandit_report.log
