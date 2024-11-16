@@ -76,6 +76,7 @@ bandit_check:
         - poetry add bandit
         - bandit -rv .
 
+
 safety_check:
     stage: security_check
     image: python:3.12.7-alpine
