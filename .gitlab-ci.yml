@@ -22,14 +22,17 @@ install_dependencies:
         - echo "$(date) Done----------------------------------------"
     artifacts:
         paths:
-            - $CI_PROJECT_DIR/.venv
-            - $CI_PROJECT_DIR/poetry
+            - $CI_PROJECT_DIR/.venv/
+            - $CI_PROJECT_DIR/poetry/
+        expire_in: 1 week
     cache:
         key:
             files:
                 - poetry.lock
         paths:
-            - $CI_PROJECT_DIR
+            - $CI_PROJECT_DIR/poetry.lock
+            - $CI_PROJECT_DIR/pyproject.toml
+            - $CI_PROJECT_DIR/.venv/
 
 run_pytest:
     stage: test
